@@ -3,6 +3,14 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 
+import os
+import uuid
+
+def image_upload(instance, filename):
+    advisor_name = instance.advisor_name
+    ext = filename.split('.')[-1]
+    filename = "%s_%s.%s" % (advisor_name,uuid.uuid4(), ext)
+    return os.path.join('uploads/advisorPhoto', filename)
 
 class UserManager(BaseUserManager):
 
@@ -87,3 +95,15 @@ class User(AbstractBaseUser):
         return self.active
 
 
+
+
+class Advisor(models.Model):
+    """
+    Advisor Model
+    """
+    
+    advisor_name = models.CharField(max_length=255)
+    advisor_photo = models.ImageField(upload_to=image_upload, max_length=1000)
+
+    def __str__(self):
+        return self.advisor_name
