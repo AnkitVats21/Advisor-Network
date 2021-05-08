@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from advisorapp.models import User
+from advisorapp import models
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,3 +25,10 @@ class UserLoginSerializer(serializers.Serializer):
     class Meta:
         fields = ('email','password')
         extra_kwargs= {'password': {'write_only': True}}
+
+class AdvisorSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = models.Advisor
+        fields = '__all__'
+        

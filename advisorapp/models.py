@@ -95,8 +95,6 @@ class User(AbstractBaseUser):
         return self.active
 
 
-
-
 class Advisor(models.Model):
     """
     Advisor Model

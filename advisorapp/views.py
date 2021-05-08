@@ -61,3 +61,32 @@ class UserLoginView(APIView):
                 return Response({'detail':'wrong password'}, status=status.HTTP_401_UNAUTHORIZED)
             return Response({'detail':'acoount with given email address does not exist.'}, status=status.HTTP_404_NOT_FOUND)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class AdvisorView(APIView):
+    """
+    Add advisor
+    """
+
+    serializer_class = serializers.AdvisorSerializer
+
+    def post(self, request):
+        serializer = serializers.AdvisorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AdvisorListView(APIView):
+    """
+    List of advisors
+    """
+    def get(self, request, userid):
+
+        try:
+            user = User.objects.get(id=userid)
+        except:
+            return Response({'detail':'invalid user id.'}, status=status.HTTP_400_BAD_REQUEST)
+        advisor = models.Advisor.objects.all()
+        serializer = serializers.AdvisorSerializer(advisor, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
