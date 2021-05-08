@@ -33,18 +33,11 @@ class AdvisorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AdvisorSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = models.Advisor
-        fields = '__all__'
-
-
 class BookedCallSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.BookedCall
-        fields = ('booking_time',)
+        fields = '__all__'
 
 
 class BookedCallListSerializer(serializers.ModelSerializer):
