@@ -99,6 +99,7 @@ class BookedCallView(APIView):
     """
     as per the recommendation of assignment
     user id and advisor id is taken from the url route
+    
     """
     
     serializer_class = serializers.BookedCallSerializer
