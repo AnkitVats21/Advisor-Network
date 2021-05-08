@@ -11,4 +11,6 @@ urlpatterns = [
     path('token-refresh/', jwt_views.TokenRefreshView.as_view()),
     path('admin/advisor/', views.AdvisorView.as_view()),
     path('user/<int:userid>/advisor/', views.AdvisorListView.as_view()),
+    path('user/<int:userid>/advisor/<int:advisorid>/', views.BookedCallView.as_view()),
+    path('user/<int:userid>/advisor/booking/', views.Bookings.as_view()),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

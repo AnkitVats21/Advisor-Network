@@ -81,6 +81,9 @@ class AdvisorListView(APIView):
     """
     List of advisors
     """
+    
+    serializer_class = serializers.AdvisorSerializer
+
     def get(self, request, userid):
 
         try:
@@ -90,3 +93,39 @@ class AdvisorListView(APIView):
         advisor = models.Advisor.objects.all()
         serializer = serializers.AdvisorSerializer(advisor, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class BookedCallView(APIView):
+    """
+    as per the recommendation of assignment
+    user id and advisor id is taken from the url route
+    """
+    
+    serializer_class = serializers.BookedCallSerializer
+
+    def post(self,request,userid,advisorid):
+        data = request.data.copy()
+        data['user']=userid
+        data['advisor']=advisorid
+        serializer = serializers.BookedCallSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class Bookings(APIView):
+    """
+    List of bookings by a user
+    """
+    
+    serializer_class = serializers.BookedCallListSerializer
+
+    def get(self, request, userid):
+        try:
+            user = User.objects.get(id=userid)
+        except:
+            return Response({'detail':'invalid user id.'}, status=status.HTTP_400_BAD_REQUEST)
+        bookings = models.BookedCall.objects.filter(user=userid)
+        serializer = serializers.BookedCallListSerializer(bookings, many=True, context={'request': request})    
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        

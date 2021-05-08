@@ -32,3 +32,4 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
 admin.site.register(models.Advisor)
+admin.site.register(models.BookedCall)

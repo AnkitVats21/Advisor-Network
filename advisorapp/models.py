@@ -105,3 +105,15 @@ class Advisor(models.Model):
 
     def __str__(self):
         return self.advisor_name
+
+
+class BookedCall(models.Model):
+    """
+    Booking a call with a advisor
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    advisor = models.ForeignKey(Advisor, on_delete=models.CASCADE)
+    booking_time = models.DateTimeField()
+
+    def __str__(self):
+        return str(self.user.name) + ' | ' + str(self.advisor.advisor_name)
